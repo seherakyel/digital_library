@@ -1,0 +1,37 @@
+
+
+--  Kullanıcılar
+INSERT INTO users (user_name, email, password, is_active) VALUES
+('seher', 'seher@mail.com', 'hashed_password1', TRUE),
+('omer', 'omer@mail.com', 'hashed_password2', TRUE),
+('elif', 'elif@mail.com', 'hashed_password3', FALSE);
+
+--  Kategoriler
+INSERT INTO categories (name) VALUES
+('Roman'),
+('Bilim'),
+('Psikoloji');
+
+--  Kitaplar
+INSERT INTO books (title, author, description, category_id) VALUES
+('Beyaz Gemi', 'Cengiz Aytmatov', 'Issık Göl kıyısında geçen hüzünlü bir hikaye', 1),
+('Evrenin Kısa Tarihi', 'Stephen Hawking', 'Bilimin evren hakkındaki büyüleyici yolculuğu', 2),
+('İnsan Olmanın Psikolojisi', 'Alfred Adler', 'Birey psikolojisine dair temel bilgiler', 3);
+
+--  Puanlar
+INSERT INTO ratings (user_id, book_id, rating, comment) VALUES
+(1, 1, 5, 'Çok duygusal bir roman, çok beğendim.'),
+(2, 2, 4, 'Evren hakkında güzel bilgiler vardı ama biraz ağır.'),
+(3, 3, 3, 'Kısmen anlaşılır ama daha fazla örnek olmalıydı.');
+
+--  Favoriler
+INSERT INTO favorites (user_id, book_id) VALUES
+(1, 2),
+(2, 1),
+(3, 3);
+
+--  Yorumlar
+INSERT INTO comments (user_id, book_id, content) VALUES
+(1, 1, 'Bu kitabı okurken gözyaşlarımı tutamadım.'),
+(2, 2, 'Evrenin yapısını daha iyi anladım, teşekkürler Hawking.'),
+(3, 3, 'Adler’in dili çok açık ve sade, öneririm.');
