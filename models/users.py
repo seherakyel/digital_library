@@ -18,7 +18,7 @@ def is_db_connected():
 is_db_connected()
 
 
-
+#add_users(user_name,mail,password,is_active)
 #delete_users_by_id(users_id)
 #update_users(users_id,user_name,email,password,is_active)
 #is_active()
@@ -67,3 +67,24 @@ def get_users_by_user_name(users_name):
         cursor.close()
         connection.close()
 #print(get_users_by_user_name("elif"))
+
+
+
+def delete_users_by_id(users_id):
+    connection=mysql.connector.connect(**CONFIG)
+    if not connection:
+        return None
+    try:
+        cursor=connection.cursor(dictionary=True)
+        query="DELETE FROM digital_library.users WHERE id=%s"
+        cursor.execute(query,(users_id,))
+        connection.commit()
+        print(f"{users_id} id'li kullanici silindi")
+    except Exception as e:
+        print("kullanici silinemedi")
+        print(f"hata:{e}")
+        return None
+    finally:
+        cursor.close()
+        connection.close()
+#print(delete_users_by_id(2))
