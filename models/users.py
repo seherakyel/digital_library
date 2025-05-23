@@ -179,24 +179,24 @@ def Register_users(user_name,email,password):
         return None
     try:
         cursor=connection.cursor(dictionary=True)
-        query="SELECT * FROM digital_library.users WHERE user_name=%s",(user_name)
-        cursor.execute(query(user_name,email,password,))
+        query = "SELECT * FROM digital_library.users WHERE email=%s AND password=%s"
+        cursor.execute(query,(email,password,))
         result = cursor.fetchall()
         if result:
             print("kullanici zaten kayitli")
             return False
         
-        query="""INSERT INTO igital_library.users(user_name,email,password)
-                 VALUES(%s,%s,%s)
-        """,(user_name,email,password)
+        query="""INSERT INTO digital_library.users(user_name,email,password)
+                 VALUES(%s,%s,%s)"""
+        cursor.execute(query,(user_name, email, password,))
         connection.commit()
         print("oldu")
         return True
        
     except Exception as e:
-       #print(">> HATA:", e)
         return f"ERROR: {e}"
 
     finally:
         cursor.close()
         connection.close()
+#print(Register_users("buse","b@mail.com","123"))
