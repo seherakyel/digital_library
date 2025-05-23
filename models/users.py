@@ -18,9 +18,8 @@ def is_db_connected():
 is_db_connected()
 
 
-#add_users(user_name,mail,password,is_active)
-#delete_users_by_id(users_id)
-#update_users(users_id,user_name,email,password,is_active)
+
+
 #is_active()
 #Users_login(email,password)
 #Register_user(user_name,mail,password)
@@ -88,3 +87,29 @@ def delete_users_by_id(users_id):
         cursor.close()
         connection.close()
 #print(delete_users_by_id(2))
+
+
+
+def update_users(users_id,user_name,email,password,is_active):
+    connection=mysql.connector.connect(**CONFIG)
+    if not connection:
+        return None
+    try:
+        cursor=connection.cursor(dictionary=True)
+        query = """
+            UPDATE digital_library.users
+            SET user_name = %s,email=%s,password=%s,is_active=%s
+            WHERE id = %s
+        """
+        cursor.execute(query,(users_id,user_name,email,password,is_active))
+        connection.commit()
+        print(f"{user_name} kullanisi güncellendi")
+
+    except Exception as e:
+        print("kullanici güncellenemedi")
+        print(f"hata:{e}")
+        return None
+    finally:
+        cursor.close()
+        connection.close()
+print(update_users(4,"a","b.@mail.com","123",1))
