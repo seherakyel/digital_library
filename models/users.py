@@ -173,4 +173,30 @@ def Users_login(email,password):
 
 
 
-def Register_users(user_name,mail,password):
+def Register_users(user_name,email,password):
+    connection=mysql.connector.connect(**CONFIG)
+    if not connection:
+        return None
+    try:
+        cursor=connection.cursor(dictionary=True)
+        query="SELECT * FROM digital_library.users WHERE user_name=%s",(user_name)
+        cursor.execute(query(user_name,email,password,))
+        result = cursor.fetchall()
+        if result:
+            print("kullanici zaten kayitli")
+            return False
+        
+        query="""INSERT INTO igital_library.users(user_name,email,password)
+                 VALUES(%s,%s,%s)
+        """,(user_name,email,password)
+        connection.commit()
+        print("oldu")
+        return True
+       
+    except Exception as e:
+       #print(">> HATA:", e)
+        return f"ERROR: {e}"
+
+    finally:
+        cursor.close()
+        connection.close()
