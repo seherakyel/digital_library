@@ -82,14 +82,14 @@ def get_books_by_category(category_id):
         return None
     try:
         cursor=connection.cursor(dictionary=True)
-        query="SELECT * FROM digital_library.books WHERE cateogry_id=%s"
-        cursor.execute(query,(category_id))
+        query="SELECT * FROM digital_library.books WHERE category_id=%s"
+        cursor.execute(query,(category_id,))
         results = cursor.fetchall()
         return results
     finally:
         cursor.close()
         connection.close()
-print(get_books_by_category(2))
+#print(get_books_by_category(4))
 
 
 
@@ -105,7 +105,7 @@ def delete_books_by_id(books_id):
     finally:
         cursor.close()
         connection.close()
-#print(delete_books_by_id(1))
+#print(delete_books_by_id(4))
 
 
 
@@ -142,4 +142,4 @@ def search_books_by_keyword(keyword): #dışarıdan bir keyword (anahtar kelime)
     finally:
         cursor.close()
         connection.close()
-#print("insan")
+#print(search_books_by_keyword("insan"))
