@@ -6,9 +6,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Optional
-from routes.users_routes import router as users_routes
-
-from digital_library.users import (
+from models.users import (
     get_users_full_info_by_id,get_users_by_user_name,delete_users_by_id,update_users,is_active, Users_login,Register_users
 )
 
