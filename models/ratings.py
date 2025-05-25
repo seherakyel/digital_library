@@ -82,3 +82,20 @@ def get_user_rating_for_book(user_id, book_id):
         cursor.close()
         connection.close()
 #print(get_user_rating_for_book(1, 2))
+
+
+
+def update_rating(user_id, book_id, new_rating, new_comment):
+    connection = mysql.connector.connect(**CONFIG)
+    if not connection:
+        return None
+    try:
+        cursor = connection.cursor()
+        query = "UPDATE ratings SET rating = %s, comment = %s WHERE user_id = %s AND book_id = %s"
+        cursor.execute(query, (new_rating, new_comment, user_id, book_id))
+        connection.commit()
+        print(f"{user_id} numaralı kullanıcı, {book_id} numaralı kitap için puan ve yorumunu güncelledi.")
+    finally:
+        cursor.close()
+        connection.close()
+#print(update_rating(1, 2, 4, "Biraz düşününce daha az puan verdim."))
