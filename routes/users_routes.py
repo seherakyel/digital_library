@@ -116,11 +116,3 @@ async def update_users_endpoint(users: UpdateUsers): # Gelen veri, UpdateUser mo
 
 
 
-from fastapi import APIRouter
-
-router = APIRouter()
-
-@router.get("/test")
-async def test_route():
-    return {"message": "Router is working!"}
-
