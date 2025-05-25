@@ -16,7 +16,6 @@ class AddRatingRequest(BaseModel):
     comment:Optional[str]
 
 class UpdateRatingRequest(BaseModel): 
-    ratings_id:int
     user_id:Optional[int]
     book_id:Optional[int]
     rating:Optional[int]
