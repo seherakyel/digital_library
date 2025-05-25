@@ -33,6 +33,7 @@ async def add_books_endpoint(books: AddBooksRequest):
     else:
         raise HTTPException(status_code=400, detail="Kitap eklenemedi.")
 
+
 @router.get("/books/{books_id}")
 async def get_book_by_id_endpoint(books_id: int):
     try:
@@ -44,6 +45,7 @@ async def get_book_by_id_endpoint(books_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Hata: {str(e)}")
 
+
 @router.get("/all_books")
 async def get_all_books_endpoint():
     try:
@@ -51,6 +53,7 @@ async def get_all_books_endpoint():
         return {"message": "Tüm kitaplar getirildi", "data": books}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Hata: {str(e)}")
+
 
 @router.get("/category/{category_id}")
 async def get_books_by_category_endpoint(category_id: int):
@@ -60,7 +63,8 @@ async def get_books_by_category_endpoint(category_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Hata: {str(e)}")
 
-@router.delete("/delete_book/{books_id}")
+
+@router.delete("/delete_books/{books_id}")
 async def delete_books_by_id_endpoint(books_id: int):
     try:
         delete_books_by_id(books_id)
@@ -68,8 +72,9 @@ async def delete_books_by_id_endpoint(books_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Hata: {str(e)}")
 
-@router.put("/update_book")
-async def update_books_endpoint(books: UpdateBoosRequest):
+
+@router.put("/update_books")
+async def update_books_endpoint(books: UpdateBooksRequest):
     try:
         update_books(
             books_id=books.books_id,
@@ -82,6 +87,7 @@ async def update_books_endpoint(books: UpdateBoosRequest):
         return {"message": "Kitap bilgileri güncellendi"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Hata: {str(e)}")
+
 
 @router.get("/search")
 async def search_books_by_keyword_endpoint(keyword: str):
