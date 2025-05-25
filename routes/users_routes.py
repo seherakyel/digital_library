@@ -6,11 +6,13 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Optional
+from routes.users_routes import router as users_routes
+
 from digital_library.users import (
     get_users_full_info_by_id,get_users_by_user_name,delete_users_by_id,update_users,is_active, Users_login,Register_users
 )
 
-
+router = APIRouter()
 
 class RegisterUser(BaseModel):
     user_name: str
@@ -25,16 +27,23 @@ class UpdateUser(BaseModel):
     password=Optional[str]
     is_active=Optional[int]
 
-router = APIRouter()
+class LoginRequest(BaseModel):
+    email: str
+    password: str
 
 @router.post("/login")
-async def Users_login_endpoint(email: str,password: str):
-    user = Users_login_endpoint(email, password)
-    if user:
-        return {"message": f"Giriş başarılı: Hoş geldin {user['user_name']}", "user": user}
+async def login_endpoint(request: LoginRequest):
+    users = Users_login(request.email, request.password)
+    if users:
+        email = users.get('email', 'Bilinmiyor')
+        return JSONResponse(content={
+            "message": f"giris basarili: Hoş geldin {email}",
+            "users": users
+        })
     else:
-        raise HTTPException(status_code=401, detail="Kullanıcı email veya şifre hatalı.")
+        raise HTTPException(status_code=401, detail="kullanici email veya şifre hatali.")
     
+
 
 @router.post("/register")
 async def Register_users_endpoint(users: RegisterUser):
