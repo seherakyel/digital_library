@@ -7,7 +7,7 @@ CONFIG = {
     'host': 'localhost',
     'user': 'root',
     'password': '123456789',
-    'database': 'food_choice'
+    'database': 'digital_library'
 }
 def is_db_connected():
     connection = mysql.connector.connect(**CONFIG)
