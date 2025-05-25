@@ -35,8 +35,7 @@ def add_books(title,author,description,category_id,published_year):
 
 
 
-
-def get_book_by_id(books_id):
+def get_books_by_id(books_id):
     connection=mysql.connector.connect(**CONFIG)
     if not connection:
         return None
@@ -49,7 +48,7 @@ def get_book_by_id(books_id):
     finally:
         cursor.close()
         connection.close()
-#print(get_book_by_id(1))
+#print(get_books_by_id(1))
 
 
 
@@ -105,7 +104,7 @@ def delete_books_by_id(books_id):
     finally:
         cursor.close()
         connection.close()
-#print(delete_books_by_id(4))
+#print(delete_books_by_id(6))
 
 
 

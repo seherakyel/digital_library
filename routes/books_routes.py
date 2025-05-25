@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Optional
 from models.books import (   
-    add_books,get_book_by_id,get_all_books,get_books_by_category,delete_books_by_id,update_books,search_books_by_keyword 
+    add_books,get_books_by_id,get_all_books,get_books_by_category,delete_books_by_id,update_books,search_books_by_keyword 
     
     )
 router = APIRouter()
@@ -35,9 +35,9 @@ async def add_books_endpoint(books: AddBooksRequest):
 
 
 @router.get("/books/{books_id}")
-async def get_book_by_id_endpoint(books_id: int):
+async def get_books_by_id_endpoint(books_id: int):
     try:
-        book = get_book_by_id(books_id)
+        book = get_books_by_id(books_id)
         if book:
             return {"message": "Kitap bulundu", "data": book}
         else:
