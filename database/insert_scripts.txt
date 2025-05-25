@@ -13,10 +13,10 @@ INSERT INTO categories (name) VALUES
 ('Psikoloji');
 
 --  Kitaplar
-INSERT INTO books (title, author, description, category_id) VALUES
-('Beyaz Gemi', 'Cengiz Aytmatov', 'Issık Göl kıyısında geçen hüzünlü bir hikaye', 1),
-('Evrenin Kısa Tarihi', 'Stephen Hawking', 'Bilimin evren hakkındaki büyüleyici yolculuğu', 2),
-('İnsan Olmanın Psikolojisi', 'Alfred Adler', 'Birey psikolojisine dair temel bilgiler', 3);
+INSERT INTO books (title, author, description, category_id,published_year) VALUES
+('İnsan Olmak', 'Engin Geçtan', 'Psikolojik çözümleme üzerine klasik bir eser.', 1, 1988);
+('Bilinmeyen Bir Kadının Mektubu', 'Stefan Zweig', 'Aşk ve saplantı üzerine unutulmaz bir novella.', 2, 1922);
+('Hayvan Çiftliği', 'George Orwell', 'Totaliter rejimlere karşı alegorik bir eleştiri.', 3, 1945);
 
 --  Puanlar
 INSERT INTO ratings (user_id, book_id, rating, comment) VALUES
