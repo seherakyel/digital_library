@@ -19,6 +19,7 @@ CREATE TABLE books (
     author VARCHAR(100),
     description TEXT,
     category_id INT,
+    published_year INT,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
 );
 

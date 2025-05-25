@@ -19,14 +19,14 @@ is_db_connected()
 
 
 
-def add_books(title,author,description,category_id):
+def add_books(title,author,description,category_id,published_year):
     connection=mysql.connector.connect(**CONFIG)
     if not connection:
         return None
     try:
         cursor=connection.cursor()
-        query="INSERT INTO books(title,author,description,category_id) VALUES (%s,%s,%s,%s)"
-        cursor.execute(query,(title,author,description,category_id,))
+        query="INSERT INTO books(title,author,description,category_id,published_year) VALUES (%s,%s,%s,%s,%s)"
+        cursor.execute(query,(title,author,description,category_id,published_year))
         connection.commit()
         print("kitap basariyla eklendi.")
     finally:
@@ -109,14 +109,14 @@ def delete_books_by_id(books_id):
 
 
 
-def update_books(books_id, title, author,description,category_id):
+def update_books(books_id, title, author,description,category_id,published_year):
     connection = mysql.connector.connect(**CONFIG)
     if not connection:
         return None
     try:
         cursor = connection.cursor()
-        query = "UPDATE books SET title = %s,author=%s,description=%s,cateogry_id=%s WHERE id = %s "
-        cursor.execute(query, (title, author,description,category_id))
+        query = "UPDATE books SET title = %s,author=%s,description=%s,cateogry_id=%s,published_year=%s WHERE id = %s "
+        cursor.execute(query, (title, author,description,category_id,published_year))
         connection.commit()
         print(f"{books_id} numarali kitap güncellendi.")
     finally:
