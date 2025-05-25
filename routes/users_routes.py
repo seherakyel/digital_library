@@ -1,6 +1,4 @@
 
-
-
 import sys
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
@@ -14,16 +12,16 @@ router = APIRouter()
 
 class RegisterUser(BaseModel):
     user_name: str
-    email=str
-    password=str
+    email:str
+    password:str
 
 
-class UpdateUser(BaseModel):
-    user_id: int
+class UpdateUsers(BaseModel):
+    users_id:int
     user_name: Optional[str]
-    email=Optional[str]
-    password=Optional[str]
-    is_active=Optional[int]
+    email:Optional[str]
+    password:Optional[str]
+    is_active:Optional[int]
 
 class LoginRequest(BaseModel):
     email: str
@@ -103,7 +101,7 @@ async def get_users_full_info_by_id_endpoint(users_id: int):
 
 
 @router.put("/update_users") # PUT isteği: Var olan kullanıcıyı güncellemek için kullanılır
-async def update_users_endpoint(users: UpdateUser): # Gelen veri, UpdateUser modeline göre kontrol edilir
+async def update_users_endpoint(users: UpdateUsers): # Gelen veri, UpdateUser modeline göre kontrol edilir
     try:
         update_users(
             users_id=users.users_id, # Gelen veri, UpdateUser modeline göre kontrol edilir
@@ -117,4 +115,12 @@ async def update_users_endpoint(users: UpdateUser): # Gelen veri, UpdateUser mod
         raise HTTPException(status_code=500, detail=f"Hata: {str(e)}")
 
 
+
+from fastapi import APIRouter
+
+router = APIRouter()
+
+@router.get("/test")
+async def test_route():
+    return {"message": "Router is working!"}
 
