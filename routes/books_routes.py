@@ -8,7 +8,7 @@ from models.books import (
     add_books,get_books_by_id,get_all_books,get_books_by_category,delete_books_by_id,update_books,search_books_by_keyword 
     
     )
-APIRouterrouter = ()
+router = APIRouter()
 
 class AddBooksRequest(BaseModel):
     title: str
