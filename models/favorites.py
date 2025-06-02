@@ -24,8 +24,8 @@ def add_favorites_book(user_id, book_id):
     try:
         cursor = connection.cursor(dictionary=True)
         # once kontrol et
-        check_query = "SELECT * FROM favorites WHERE user_id = %s AND book_id = %s"
-        cursor.execute(check_query, (user_id, book_id))
+        query = "SELECT * FROM favorites WHERE user_id = %s AND book_id = %s"
+        cursor.execute(query, (user_id, book_id))
         existing = cursor.fetchone()
         if existing:
             print(f"Kullanıcı {user_id}, kitap {book_id} zaten favorilere eklemiş")
