@@ -1,6 +1,6 @@
 
 import sys
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends, status
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Optional
@@ -27,27 +27,11 @@ class LoginRequest(BaseModel):
     email: str
     password: str
 
-@router.post("/login")
-async def login_endpoint(request: LoginRequest):
-    users = Users_login(request.email, request.password)
-    if users:
-        email = users.get('email', 'Bilinmiyor')
-        return JSONResponse(content={
-            "message": f"giris basarili: Hoş geldin {email}",
-            "users": users
-        })
-    else:
-        raise HTTPException(status_code=401, detail="kullanici email veya şifre hatali.")
+# Eski login endpoint'i kaldırıldı - yeni JWT sistemi kullanılıyor
     
 
 
-@router.post("/register")
-async def Register_users_endpoint(users: RegisterUser):
-    result = Register_users(users.user_name, users.email, users.password,)
-    if result:
-        return JSONResponse(content={"message": f"{users.user_name} başarıyla kayıt oldu."})
-    else:
-        raise HTTPException(status_code=400, detail="Kayıt işlemi başarısız. Kullanıcı adı alınmış olabilir.")
+# Eski register endpoint'i kaldırıldı - yeni JWT sistemi kullanılıyor
 
 
 
@@ -116,3 +100,57 @@ async def update_users_endpoint(users: UpdateUsers): # Gelen veri, UpdateUser mo
 
 
 
+# Dosyanın başına ekleyin:
+from auth import get_password_hash, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
+from datetime import timedelta
+from middleware import get_current_user, get_current_admin_user
+from fastapi import status
+
+# Login endpoint'ini güncelleyin:
+@router.post("/login")
+async def login_endpoint(request: LoginRequest):
+    from models.users import authenticate_user
+    
+    user = authenticate_user(request.email, request.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password"
+        )
+    
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": str(user["id"])}, expires_delta=access_token_expires
+    )
+    
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": {
+            "id": user["id"],
+            "user_name": user["user_name"],
+            "email": user["email"]
+        }
+    }
+
+# Register endpoint'ini güncelleyin:
+@router.post("/register")
+async def register_users_endpoint(users: RegisterUser):
+    # Şifreyi hashle
+    hashed_password = get_password_hash(users.password)
+    
+    result = Register_users(users.user_name, users.email, hashed_password)
+    if result:
+        return JSONResponse(content={"message": f"{users.user_name} başarıyla kayıt oldu."})
+    else:
+        raise HTTPException(status_code=400, detail="Kayıt işlemi başarısız.")
+
+# Yeni endpoint - Mevcut kullanıcı bilgilerini getir
+@router.get("/me")
+async def get_current_user_info(current_user: str = Depends(get_current_user)):
+    from models.users import get_users_full_info_by_id
+    user = get_users_full_info_by_id(int(current_user))
+    if user:
+        return {"user": user}
+    else:
+        raise HTTPException(status_code=404, detail="User not found")

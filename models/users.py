@@ -200,3 +200,39 @@ def Register_users(user_name,email,password):
         cursor.close()
         connection.close()
 #print(Register_users("buse","b@mail.com","123"))
+
+# models/users.py dosyasının sonuna ekleyin:
+
+def get_user_by_email(email):
+    """Email ile kullanıcı getir"""
+    connection = mysql.connector.connect(**CONFIG)
+    if not connection:
+        return None
+    try:
+        cursor = connection.cursor(dictionary=True)
+        query = "SELECT * FROM digital_library.users WHERE email = %s"
+        cursor.execute(query, (email,))
+        user = cursor.fetchone()
+        return user
+    except Exception as e:
+        print(f"Kullanıcı getirilemedi: {e}")
+        return None
+    finally:
+        cursor.close()
+        connection.close()
+
+def authenticate_user(email: str, password: str):
+    """Kullanıcı doğrulama"""
+    user = get_user_by_email(email)
+    if not user:
+        return False
+    # Şifre kontrolü için auth modülünü import et
+    try:
+        from auth import verify_password
+        if not verify_password(password, user["password"]):
+            return False
+    except ImportError:
+        # Eğer auth modülü yüklenemezse, basit string karşılaştırması yap
+        if password != user["password"]:
+            return False
+    return user
